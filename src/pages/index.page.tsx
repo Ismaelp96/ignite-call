@@ -1,6 +1,7 @@
 import Head from 'next/head';
 import { Roboto } from 'next/font/google';
 import { Heading, Text } from '@ignite-ui/react';
+import HomePage from './home';
 
 const roboto = Roboto({
 	variable: '--font-roboto',
@@ -18,8 +19,7 @@ export default function Home() {
 				<link rel='icon' href='/favicon.ico' />
 			</Head>
 			<div className={`${roboto.className} `}>
-				<Heading>Hello World</Heading>
-				<Text>Texto</Text>
+				<HomePage />
 			</div>
 		</>
 	);
