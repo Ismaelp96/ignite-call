@@ -90,7 +90,7 @@ export default function Register() {
 				</label>
 
 				<Button type='submit'>
-					{isSubmitting ? '...cadastrando' : 'Próximo passo'}
+					{isSubmitting ? 'Cadastrando...' : 'Próximo passo'}
 					<ArrowRight />
 				</Button>
 			</Form>
