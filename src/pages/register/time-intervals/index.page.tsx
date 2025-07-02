@@ -1,3 +1,7 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Controller, useFieldArray, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { ArrowRight } from 'phosphor-react';
 import {
 	Button,
 	Checkbox,
@@ -6,29 +10,33 @@ import {
 	Text,
 	TextInput,
 } from '@ignite-ui/react';
-import { Container, Header } from '../styles';
+
 import {
 	IntervalBox,
 	IntervalDay,
 	IntervalInputs,
 	IntervalItem,
 	IntervalsContainer,
+	FormError,
 } from './styles';
-import { ArrowRight } from 'phosphor-react';
-import { Controller, useFieldArray, useForm } from 'react-hook-form';
-import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
+import { Container, Header } from '../styles';
 import { getWeekDays } from '@/utils/get-week-days';
 
 const timeIntervalsFormSchema = z.object({
-	intervals: z.array(
-		z.object({
-			weekDay: z.number(),
-			enabled: z.boolean(),
-			startTime: z.string(),
-			endTime: z.string(),
+	intervals: z
+		.array(
+			z.object({
+				weekDay: z.number(),
+				enabled: z.boolean(),
+				startTime: z.string(),
+				endTime: z.string(),
+			}),
+		)
+		.length(7)
+		.transform((intervals) => intervals.filter((interval) => interval.enabled))
+		.refine((intervals) => intervals.length < 0, {
+			message: 'Você precisa selecionar pelo menos um dia da semana!',
 		}),
-	),
 });
 
 type TimeIntervalsForm = z.infer<typeof timeIntervalsFormSchema>;
@@ -60,7 +68,9 @@ export default function TimeIntervals() {
 	const { fields } = useFieldArray({ control, name: 'intervals' });
 	const intervals = watch('intervals');
 
-	async function handleSetTimeIntervals() {}
+	async function handleSetTimeIntervals(data: TimeIntervalsForm) {
+		console.log(data.intervals);
+	}
 	return (
 		<Container>
 			<Header>
@@ -113,7 +123,10 @@ export default function TimeIntervals() {
 						);
 					})}
 				</IntervalsContainer>
-				<Button type='submit'>
+				{errors.intervals && (
+					<FormError size='sm'>{errors.intervals.root?.message}</FormError>
+				)}
+				<Button type='submit' disabled={isSubmitting}>
 					Próximo passo <ArrowRight />
 				</Button>
 			</IntervalBox>
