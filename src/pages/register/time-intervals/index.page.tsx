@@ -23,6 +23,7 @@ import { Container, Header } from '../styles';
 import { getWeekDays } from '@/utils/get-week-days';
 import { convertTimeStringToMinutes } from '@/utils/convert-time-string-to-minutes';
 import { api } from '@/lib/axios';
+import { useRouter } from 'next/router';
 
 const timeIntervalsFormSchema = z.object({
 	intervals: z
@@ -65,6 +66,7 @@ const timeIntervalsFormSchema = z.object({
 type TimeIntervalsFormOutput = z.output<typeof timeIntervalsFormSchema>;
 
 export default function TimeIntervals() {
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
@@ -87,7 +89,6 @@ export default function TimeIntervals() {
 	});
 
 	const weekDays = getWeekDays();
-
 	const { fields } = useFieldArray({ control, name: 'intervals' });
 	const intervals = watch('intervals');
 
@@ -97,6 +98,7 @@ export default function TimeIntervals() {
 		await api.post('/users/time-intervals', {
 			intervals,
 		});
+		await router.push(`/register/update-profile`);
 	}
 	return (
 		<Container>
