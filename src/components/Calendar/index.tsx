@@ -15,7 +15,7 @@ export function Calendar() {
 		<CalendarContainer>
 			<CalendarHeader>
 				<CalendarTitle>
-					Dezembro <span>2022</span>
+					Dezembro, <span>2022</span>
 				</CalendarTitle>
 				<CalendarActions>
 					<button>
