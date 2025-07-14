@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { CaretLeft, CaretRight } from 'phosphor-react';
 
 import {
@@ -30,6 +30,31 @@ export function Calendar() {
 
 	const currentMonth = currentDate.format('MMMM');
 	const currentYear = currentDate.format('YYYY');
+
+	const calendarWeeks = useMemo(() => {
+		const daysInsMonthArray = Array.from({
+			length: currentDate.daysInMonth(),
+		}).map((_, i) => {
+			return currentDate.set('date', i + 1);
+		});
+
+		const firstWeekDay = currentDate.get('day');
+		const lastWeekDay = currentDate.get('dates');
+		const previousMounthFillArray = Array.from({ length: firstWeekDay })
+			.map((_, i) => {
+				return currentDate.subtract(i + 1, 'day');
+			})
+			.reverse();
+		const NextMounthFillArray = Array.from({ length: lastWeekDay }).map(
+			(_, i) => {
+				return currentDate.add(i + 1, 'days');
+			},
+		);
+		// [...previousMounthFillArray, ...daysInsMonthArray]
+		return NextMounthFillArray;
+	}, [currentDate]);
+
+	console.log('calendarWeeks', calendarWeeks);
 
 	return (
 		<CalendarContainer>
