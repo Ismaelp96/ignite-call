@@ -72,7 +72,7 @@ export default function updateProfile() {
 				</label>
 
 				<Button type='submit'>
-					{isSubmitting ? 'finalizando...' : 'Finalizar'}
+					{isSubmitting ? 'Finalizando...' : 'Finalizar'}
 					<ArrowRight />
 				</Button>
 			</ProfileBox>
