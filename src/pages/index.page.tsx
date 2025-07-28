@@ -1,6 +1,5 @@
 import Head from 'next/head';
 import { Roboto } from 'next/font/google';
-import { Heading, Text } from '@ignite-ui/react';
 import HomePage from './home';
 
 const roboto = Roboto({
